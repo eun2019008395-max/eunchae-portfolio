@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>강은채 - 기획 / 마케팅 / 비즈니스 이력서</title>
+  <style>
+    /* ----------------------------------------------------
+       다크 애니메이션 배경 + 고대비 밝은 화이트 카드 테마
+    ----------------------------------------------------- */
+    :root {
+      --primary: #0284c7;          /* 신뢰감 있는 스카이 블루 */
+      --primary-light: #e0f2fe;    /* 연한 스카이 블루 */
+      --primary-glow: rgba(56, 189, 248, 0.25);
+      --text-main: #f8fafc;        /* 배경 위 타이틀 등 밝은 텍스트 */
+      --card-text-title: #0f172a;  /* 카드 내부 메인 제목 (또렷한 짙은색) */
+      --card-text-body: #334155;   /* 카드 내부 본문 내용 */
+      --card-text-sub: #64748b;    /* 카드 내부 보조 텍스트 */
+      --bg-page: #070d1e;          /* 깊은 밤하늘색 다크 네이비 (배경) */
+      --card-bg: rgba(255, 255, 255, 0.95); /* 배경과 뚜렷하게 대비되는 밝은 화이트 카드 */
+      --card-border: rgba(255, 255, 255, 0.9);
+      --border-inner: #e2e8f0;     /* 카드 내부 경계선 */
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.7;
+      word-break: keep-all;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* 배경 인터랙티브 파티클 캔버스 */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* 상단 메뉴 바 (모바일 및 PC 고정 반투명 글래스) */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(7, 13, 30, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .nav-logo {
+      font-weight: 800;
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+      text-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    nav {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    nav a {
+      color: var(--text-sub);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+      text-shadow: 0 0 8px var(--primary-glow);
+    }
+
+    /* 본문 레이아웃 */
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 34px 20px 80px 20px;
+      position: relative;
+    }
+
+    section {
+      margin-bottom: 42px;
+      scroll-margin-top: 75px;
+    }
+
+    /* 프로필 히어로 영역 (배경과 대비되는 밝은 화이트 글래스 카드) */
+    .profile-hero {
+      background: var(--card-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 40px 32px 32px 32px;
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.25);
+    }
+
+    /* 소개칸 좌우 분할 레이아웃 */
+    .hero-split-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 36px;
+      width: 100%;
+    }
+
+    /* 좌측 영역 (사진 및 약술형 프로필 정보) */
+    .hero-left {
+      flex: 0 0 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-right: 28px;
+      border-right: 1px solid var(--border-inner);
+    }
+
+    .profile-img-wrap {
+      width: 125px;
+      height: 125px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #bae6fd;
+      background-color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      box-shadow: 0 8px 20px rgba(2, 132, 199, 0.22);
+      position: relative;
+    }
+
+    .profile-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-brief {
+      width: 100%;
+    }
+
+    .brief-name-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .brief-name {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--card-text-title);
+      letter-spacing: -0.02em;
+    }
+
+    .role-tag {
+      display: inline-block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #0369a1;
+      background-color: #e0f2fe;
+      border: 1px solid #bae6fd;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .brief-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.88rem;
+      text-align: left;
+      background: #f8fafc;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border-inner);
+    }
+
+    .brief-list li {
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+    }
+
+    .brief-label {
+      font-weight: 700;
+      color: var(--card-text-sub);
+      width: 44px;
+      flex-shrink: 0;
+      font-size: 0.82rem;
+    }
+
+    .brief-value {
+      color: var(--card-text-body);
+      font-weight: 500;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    .brief-value a {
+      color: #0284c7;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      word-break: break-all;
+    }
+
+    /* 우측 영역 (박스 없는 큰 글씨 인용구) */
+    .hero-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: left;
+    }
+
+    .hero-quote-wrap {
+      position: relative;
+    }
+
+    .hero-quote-mark {
+      font-size: 3.8rem;
+      line-height: 0.85;
+      font-family: Georgia, serif;
+      color: #0284c7;
+      opacity: 0.5;
+      display: block;
+      margin-bottom: 12px;
+      user-select: none;
+    }
+
+    .hero-quote-text {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--card-text-title);
+      line-height: 1.45;
+      letter-spacing: -0.025em;
+      margin: 0;
+      word-break: keep-all;
+    }
+
+    /* 프로필 바로 아래 메뉴 연결 버튼 영역 */
+    .quick-menu-wrap {
+      width: 100%;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px dashed var(--border-inner);
+    }
+
+    .quick-menu-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+
+    .quick-btn-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+
+    .quick-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 14px 10px;
+      background-color: #f8fafc;
+      color: var(--card-text-title);
+      border: 1px solid var(--border-inner);
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 700;
+      transition: all 0.25s ease;
+    }
+
+    .quick-btn .btn-icon {
+      font-size: 1.3rem;
+    }
+
+    .quick-btn:hover {
+      background-color: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(2, 132, 199, 0.35);
+    }
+
+    .quick-btn:hover .btn-icon {
+      transform: scale(1.12);
+      transition: transform 0.2s ease;
+    }
+
+    /* 섹션 제목 스타일 (다크 배경 위에서 선명하게) */
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .section-title::before {
+      content: "";
+      display: inline-block;
+      width: 5px;
+      height: 20px;
+      background-color: #38bdf8;
+      border-radius: 3px;
+      box-shadow: 0 0 12px #38bdf8;
+    }
+
+    /* 내용 카드 공통 (밝은 화이트 글래스 카드) */
+    .content-box {
+      background: var(--card-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.25);
+    }
+
+    /* 역량 및 도구 */
+    .badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .badge {
+      background-color: #f0f9ff;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .badge:hover {
+      background-color: #e0f2fe;
+      border-color: #0284c7;
+      color: #0284c7;
+    }
+
+    .skill-category {
+      margin-bottom: 22px;
+    }
+
+    .skill-category:last-child {
+      margin-bottom: 0;
+    }
+
+    .skill-category h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--card-text-title);
+      margin-bottom: 8px;
+    }
+
+    /* 프로젝트 카드 목록 */
+    .project-item {
+      padding-bottom: 22px;
+      margin-bottom: 22px;
+      border-bottom: 1px solid var(--border-inner);
+    }
+
+    .project-item:last-child {
+      padding-bottom: 0;
+      margin-bottom: 0;
+      border-bottom: none;
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .project-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--card-text-title);
+    }
+
+    .project-period {
+      font-size: 0.85rem;
+      color: var(--card-text-sub);
+    }
+
+    .project-role {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #0284c7;
+      margin-bottom: 10px;
+    }
+
+    .project-desc {
+      font-size: 0.95rem;
+      color: var(--card-text-body);
+    }
+
+    .project-desc ul {
+      padding-left: 20px;
+      margin-top: 8px;
+    }
+
+    .project-desc li {
+      margin-bottom: 5px;
+    }
+
+    /* 학력 및 자격사항 */
+    .timeline-item {
+      margin-bottom: 18px;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--card-text-title);
+    }
+
+    .timeline-sub {
+      font-size: 0.88rem;
+      color: var(--card-text-sub);
+    }
+
+    /* 연락처 영역 */
+    .contact-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .contact-list li {
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--card-text-body);
+    }
+
+    .contact-label {
+      width: 70px;
+      font-weight: 700;
+      color: var(--card-text-sub);
+      flex-shrink: 0;
+    }
+
+    .contact-value a {
+      color: #0284c7;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.2s;
+    }
+
+    .contact-value a:hover {
+      color: #0369a1;
+    }
+
+    /* 맨 위로 가기 플로팅 버튼 */
+    .btn-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      background-color: rgba(30, 41, 59, 0.85);
+      color: var(--primary);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      backdrop-filter: blur(8px);
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      transition: all 0.2s ease;
+      text-decoration: none;
+      z-index: 90;
+    }
+
+    .btn-top:hover {
+      background-color: var(--primary);
+      color: #070d1e;
+      box-shadow: 0 0 16px var(--primary);
+      transform: translateY(-2px);
+    }
+
+    /* 모바일 화면 대응 (반응형) */
+    @media (max-width: 650px) {
+      .profile-hero {
+        padding: 30px 18px 24px 18px;
+      }
+
+      .hero-split-container {
+        flex-direction: column;
+        gap: 24px;
+        text-align: center;
+      }
+
+      .hero-left {
+        flex: auto;
+        width: 100%;
+        padding-right: 0;
+        border-right: none;
+        border-bottom: 1px solid var(--border-inner);
+        padding-bottom: 22px;
+      }
+
+      .profile-img-wrap {
+        width: 105px;
+        height: 105px;
+      }
+
+      .brief-list {
+        max-width: 360px;
+        margin: 0 auto;
+      }
+
+      .hero-right {
+        text-align: center;
+      }
+
+      .hero-quote-mark {
+        font-size: 2.8rem;
+        margin-bottom: 6px;
+      }
+
+      .hero-quote-text {
+        font-size: 1.35rem;
+        line-height: 1.45;
+      }
+
+      .quick-btn-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-container {
+        padding: 10px 16px;
+      }
+
+      .nav-logo {
+        font-size: 1rem;
+      }
+
+      nav {
+        gap: 10px;
+      }
+
+      nav a {
+        font-size: 0.85rem;
+      }
+
+      .content-box {
+        padding: 20px 16px;
+      }
+    }
+  </style>
+</head>
+<body id="top">
+
+  <!-- 배경 애니메이션 캔버스 (데이터 네트워크 파티클) -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- ==============================================
+       1. 상단 메뉴 바 (클릭 시 해당 위치로 이동)
+  ============================================== -->
+  <header>
+    <div class="nav-container">
+      <a href="#top" class="nav-logo">PORTFOLIO</a>
+      <nav>
+        <a href="#about">소개</a>
+        <a href="#skills">역량·도구</a>
+        <a href="#projects">프로젝트</a>
+        <a href="#education">학력·자격</a>
+        <a href="#contact">연락처</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ==============================================
+         2. 프로필 소개 섹션
+         💡 수정 팁: 같은 폴더에 본인 사진을 넣고 이름을
+         profile.jpg 로 바꾸시면 자동으로 사진이 들어갑니다.
+    ============================================== -->
+    <section id="about">
+      <div class="profile-hero">
+        <!-- 좌우 분할 상단 영역 -->
+        <div class="hero-split-container">
+          
+          <!-- 좌측: 사진 및 약술형 프로필 정보 -->
+          <div class="hero-left">
+            <div class="profile-img-wrap">
+              <!-- 사진 파일이 없을 경우 기본 아이콘이 나타나도록 처리되어 있습니다 -->
+              <img src="profile.jpg" alt="강은채 프로필 사진" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 24 24\' fill=\'%230284c7\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z\'/></svg>';">
+            </div>
+            
+            <div class="profile-brief">
+              <div class="brief-name-row">
+                <span class="brief-name">강은채</span>
+                <span class="role-tag">기획자</span>
+              </div>
+              <ul class="brief-list">
+                <li><span class="brief-label">학력</span> <span class="brief-value">한양대학교 ERICA 경영학부 (졸업예정)</span></li>
+                <li><span class="brief-label">이메일</span> <span class="brief-value"><a href="mailto:eunchae007@naver.com">eunchae007@naver.com</a></span></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 우측: 박스 없는 큰 글씨 인용구 -->
+          <div class="hero-right">
+            <div class="hero-quote-wrap">
+              <span class="hero-quote-mark">“</span>
+              <h2 class="hero-quote-text">
+                데이터 기반 의사결정으로<br>
+                문제를 해결하는<br>
+                기획자입니다.
+              </h2>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 메인 프로필 바로 밑 메뉴 연결 버튼 -->
+        <div class="quick-menu-wrap">
+          <div class="quick-menu-label">바로가기 메뉴</div>
+          <div class="quick-btn-grid">
+            <a href="#skills" class="quick-btn">
+              <span class="btn-icon">💡</span>
+              <span>주요 역량·도구</span>
+            </a>
+            <a href="#projects" class="quick-btn">
+              <span class="btn-icon">📂</span>
+              <span>프로젝트·경력</span>
+            </a>
+            <a href="#education" class="quick-btn">
+              <span class="btn-icon">🎓</span>
+              <span>학력·자격사항</span>
+            </a>
+            <a href="#contact" class="quick-btn">
+              <span class="btn-icon">✉️</span>
+              <span>연락처</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         3. 업무 역량 및 사용 도구 섹션
+    ============================================== -->
+    <section id="skills">
+      <h2 class="section-title">주요 역량 및 도구</h2>
+      <div class="content-box">
+        
+        <div class="skill-category">
+          <h3>업무 역량</h3>
+          <div class="badge-group">
+            <span class="badge">[서비스 기획]</span>
+            <span class="badge">[데이터 분석]</span>
+            <span class="badge">[시장 조사]</span>
+            <span class="badge">[프로젝트 관리]</span>
+            <!-- 필요한 역량을 복사해서 추가하거나 수정하세요 -->
+          </div>
+        </div>
+
+        <div class="skill-category" style="margin-top: 20px;">
+          <h3>활용 가능한 도구</h3>
+          <div class="badge-group">
+            <span class="badge">[Notion]</span>
+            <span class="badge">[Excel / 스프레드시트]</span>
+            <span class="badge">[Slack]</span>
+            <span class="badge">[Figma]</span>
+            <span class="badge">[Google Analytics]</span>
+            <!-- 다룰 줄 아는 툴 이름을 적어주세요 -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==============================================
+         4. 프로젝트 및 주요 경험 섹션
+    ============================================== -->
+    <section id="projects">
+      <h2 class="section-title">프로젝트 및 주요 경험</h2>
+      <div class="content-box">
+
+        <!-- 프로젝트 1 -->
+        <div class="project-item">
+          <div class="project-header">
+            <span class="project-title">[프로젝트 또는 업무명을 입력하세요]</span>
+            <span class="project-period">[202X.XX ~ 202X.XX]</span>
+          </div>
+          <div class="project-role">[담당 역할: 기획 총괄 / 운영 지원 등]</div>
+          <div class="project-desc">
+            <p>[어떤 목적의 프로젝트였는지 한 줄로 설명해 주세요.]</p>
+            <ul>
+              <li>[구체적으로 수행한 업무 1을 적어주세요]</li>
+              <li>[구체적으로 수행한 업무 2를 적어주세요]</li>
+              <li>[프로젝트를 통해 얻은 경험이나 배운 점을 적어주세요]</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 프로젝트 2 (필요 시 복사해서 늘릴 수 있습니다) -->
+        <div class="project-item">
+          <div class="project-header">
+            <span class="project-title">[두 번째 프로젝트 또는 경험명을 입력하세요]</span>
+            <span class="project-period">[202X.XX ~ 202X.XX]</span>
+          </div>
+          <div class="project-role">[담당 역할 입력]</div>
+          <div class="project-desc">
+            <p>[프로젝트 목표 또는 간단한 소개를 입력하세요.]</p>
+            <ul>
+              <li>[수행한 주요 업무 내용을 입력하세요]</li>
+              <li>[경험을 통해 배운 점을 입력하세요]</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==============================================
+         5. 학력 및 자격·교육 사항 섹션
+    ============================================== -->
+    <section id="education">
+      <h2 class="section-title">학력 및 자격·교육</h2>
+      <div class="content-box">
+
+        <div class="timeline-item">
+          <div class="timeline-title">한양대학교 ERICA 경영학부</div>
+          <div class="timeline-sub">2019.03 ~ 2027.02 (졸업 예정)</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-title">[취득한 자격증 또는 이수한 교육 과정명]</div>
+          <div class="timeline-sub">[발급 기관 또는 교육 기관명] · [202X.XX]</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==============================================
+         6. 연락처 섹션
+    ============================================== -->
+    <section id="contact">
+      <h2 class="section-title">연락처</h2>
+      <div class="content-box">
+        <ul class="contact-list">
+          <li>
+            <span class="contact-label">이메일</span>
+            <span class="contact-value"><a href="mailto:eunchae007@naver.com">eunchae007@naver.com</a></span>
+          </li>
+          <li>
+            <span class="contact-label">링크드인</span>
+            <span class="contact-value"><a href="https://www.linkedin.com/in/은채-강-859b8540b" target="_blank">www.linkedin.com/in/은채-강-859b8540b</a></span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==============================================
+       7. 맨 위로 가기 버튼
+  ============================================== -->
+  <a href="#top" class="btn-top" title="맨 위로 가기">↑</a>
+
+  <!-- ==============================================
+       8. 테크 데이터망 파티클 인터랙션 스크립트
+  ============================================== -->
+  <script>
+    (function () {
+      const canvas = document.getElementById("bg-canvas");
+      const ctx = canvas.getContext("2d");
+
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+
+      // 마우스 및 터치 위치
+      const mouse = {
+        x: null,
+        y: null,
+        radius: 140 // 마우스 반응 반경
+      };
+
+      window.addEventListener("mousemove", function (e) {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+
+      window.addEventListener("touchmove", function (e) {
+        if (e.touches.length > 0) {
+          mouse.x = e.touches[0].clientX;
+          mouse.y = e.touches[0].clientY;
+        }
+      }, { passive: true });
+
+      window.addEventListener("touchend", function () {
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      window.addEventListener("mouseout", function () {
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      window.addEventListener("resize", function () {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        initParticles();
+      });
+
+      // 파티클 클래스
+      class Particle {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.75;
+          this.vy = (Math.random() - 0.5) * 0.75;
+          this.radius = Math.random() * 1.8 + 1.2;
+        }
+
+        update() {
+          // 벽 반사
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+
+          this.x += this.vx;
+          this.y += this.vy;
+
+          // 마우스 반응 (가까워지면 살짝 유도)
+          if (mouse.x !== null && mouse.y !== null) {
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < mouse.radius) {
+              const force = (mouse.radius - dist) / mouse.radius;
+              this.x += (dx / dist) * force * 1.2;
+              this.y += (dy / dist) * force * 1.2;
+            }
+          }
+        }
+
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(56, 189, 248, 0.75)";
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = "rgba(56, 189, 248, 0.6)";
+          ctx.fill();
+          ctx.shadowBlur = 0; // 리셋
+        }
+      }
+
+      let particles = [];
+
+      function initParticles() {
+        particles = [];
+        // 화면 크기에 따라 파티클 개수 조절 (모바일 배터리/성능 최적화)
+        const count = width < 600 ? 38 : 65;
+        for (let i = 0; i < count; i++) {
+          particles.push(new Particle());
+        }
+      }
+
+      initParticles();
+
+      // 프레임 애니메이션 루프
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        // 1. 파티클 간 선 연결
+        const maxDist = width < 600 ? 95 : 120;
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < maxDist) {
+              const alpha = (1 - dist / maxDist) * 0.28;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = `rgba(56, 189, 248, ${alpha})`;
+              ctx.lineWidth = 0.9;
+              ctx.stroke();
+            }
+          }
+
+          // 2. 마우스와 파티클 간 선 연결
+          if (mouse.x !== null && mouse.y !== null) {
+            const mdx = mouse.x - particles[i].x;
+            const mdy = mouse.y - particles[i].y;
+            const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
+            if (mDist < mouse.radius) {
+              const mAlpha = (1 - mDist / mouse.radius) * 0.45;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.strokeStyle = `rgba(56, 189, 248, ${mAlpha})`;
+              ctx.lineWidth = 1.1;
+              ctx.stroke();
+            }
+          }
+
+          particles[i].update();
+          particles[i].draw();
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    })();
+  </script>
+
+</body>
+</html>
