@@ -548,49 +548,75 @@
       transform: translateY(-2px);
     }
 
-    /* 모바일 화면 대응 (반응형) */
+    /* 모바일 화면 대응 (모바일에서도 소개칸 좌우 배치 유지) */
     @media (max-width: 650px) {
       .profile-hero {
-        padding: 30px 18px 24px 18px;
+        padding: 24px 14px 20px 14px;
       }
 
       .hero-split-container {
-        flex-direction: column;
-        gap: 24px;
-        text-align: center;
+        flex-direction: row;
+        align-items: center;
+        gap: 14px;
+        text-align: left;
       }
 
       .hero-left {
-        flex: auto;
-        width: 100%;
-        padding-right: 0;
-        border-right: none;
-        border-bottom: 1px solid var(--border-inner);
-        padding-bottom: 22px;
+        flex: 0 0 135px;
+        width: 135px;
+        padding-right: 14px;
+        border-right: 1px solid var(--border-inner);
+        border-bottom: none;
+        padding-bottom: 0;
       }
 
       .profile-img-wrap {
-        width: 105px;
-        height: 105px;
+        width: 80px;
+        height: 80px;
+        margin-bottom: 10px;
+        border-width: 3px;
+      }
+
+      .brief-name-row {
+        gap: 4px;
+        margin-bottom: 8px;
+        flex-direction: column;
+      }
+
+      .brief-name {
+        font-size: 1.1rem;
+      }
+
+      .role-tag {
+        font-size: 0.72rem;
+        padding: 1px 6px;
       }
 
       .brief-list {
-        max-width: 360px;
-        margin: 0 auto;
+        padding: 8px 10px;
+        font-size: 0.75rem;
+        gap: 5px;
+      }
+
+      .brief-label {
+        width: 28px;
+        font-size: 0.72rem;
       }
 
       .hero-right {
-        text-align: center;
+        flex: 1;
+        text-align: left;
       }
 
       .hero-quote-mark {
-        font-size: 2.8rem;
-        margin-bottom: 6px;
+        font-size: 2.2rem;
+        margin-bottom: 2px;
+        line-height: 0.9;
       }
 
       .hero-quote-text {
-        font-size: 1.35rem;
-        line-height: 1.45;
+        font-size: 1.05rem;
+        line-height: 1.4;
       }
 
       .quick-btn-grid {
